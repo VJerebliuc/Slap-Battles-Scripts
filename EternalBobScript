@@ -289,3 +289,11 @@ close.MouseButton1Click:Connect(function()
 	
 	game:GetService("StarterGui"):SetCore("SendNotification",{Title = "Goodbye", Text = "See you next time!"})
 end)
+
+extrarob.MouseButton1Click:Connect(function()
+	local remote = game.ReplicatedStorage:FindFirstChild("rob")
+	
+	if remote and remote:IsA("RemoteEvent") then
+		remote:FireServer()
+	end
+end)
