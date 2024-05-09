@@ -193,7 +193,7 @@ close.MouseButton1Click:Connect(function()
 end)
 
 getelude.MouseButton1Click:Connect(function()
-	local ruins = workspace:FindFirstChild("Ruins")
+	local ruins = workspace:FindFirstChild("Ruins"):FindFirstChild("Elude")
 	
 	if not ruins then
 		getelude.Text = "ERROR"
@@ -245,15 +245,13 @@ getcounter.MouseButton1Click:Connect(function()
 	
 	lplr.Character.HumanoidRootPart.CFrame = CFrame.new(0,100,0)
 	
-	wait(0.2)
-	
 	lpr.Character.HumanoidRootPart.Anchored = true
 	
-	wait(121)
-	
-	for i,v in pairs(workspace.Maze:GetDescendants()) do
-		if v:IsA("ClickDetector") then
-			fireclickdetector(v)
+	while wait(1) do
+		for i,v in pairs(workspace.Maze:GetDescendants()) do
+			if v:IsA("ClickDetector") then
+				fireclickdetector(v)
+			end
 		end
 	end
 end)
