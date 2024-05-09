@@ -217,7 +217,7 @@ getelude.MouseButton1Click:Connect(function()
 		return
 	end
 
-	firetouchinterest(lplr.Character.HumanoidRootPart,glove.TouchInterest,0)
+	firetouchinterest(lplr.Character.HumanoidRootPart,glove.TouchInterest,1)
 end)
 
 getcounter.MouseButton1Click:Connect(function()
@@ -245,7 +245,7 @@ getcounter.MouseButton1Click:Connect(function()
 	
 	lplr.Character.HumanoidRootPart.CFrame = CFrame.new(0,100,0)
 	
-	lpr.Character.HumanoidRootPart.Anchored = true
+	lplr.Character.HumanoidRootPart.Anchored = true
 	
 	while wait(1) do
 		for i,v in pairs(workspace.Maze:GetDescendants()) do
