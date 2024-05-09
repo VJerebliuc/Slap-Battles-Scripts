@@ -1,0 +1,259 @@
+--made by saddymaddy
+local DEBUG = false
+
+repeat wait() until game:IsLoaded()
+
+if not DEBUG then
+	if _G.hubactive == true then return end
+	_G.hubactive = true
+end
+
+local lplr = game.Players.LocalPlayer
+
+local infyieldLoaded = false
+local optimized = false
+local gettingCounter = false
+
+game:GetService("StarterGui"):SetCore("SendNotification",{Title = "Welcome", Text = "Welcome to saddymaddy's hub!"})
+
+local screengui = Instance.new("ScreenGui",lplr.PlayerGui)
+screengui.ResetOnSpawn = false
+screengui.Name = game:GetService("HttpService"):GenerateGUID(false)
+
+local gui = Instance.new("Frame",screengui)
+gui.Name = "Window"
+gui.Position = UDim2.new(0.25,0,0.25,0)
+gui.Size = UDim2.new(0.5,0,0.55,0)
+gui.BackgroundColor3 = Color3.fromRGB(47,47,47)
+gui.Active = true
+gui.Selectable = true
+gui.Draggable = true
+
+local bar = Instance.new("Frame",gui)
+bar.Name = "Bar"
+bar.Size = UDim2.new(1,0,0.1,0)
+bar.BackgroundColor3 = Color3.fromRGB(31,31,31)
+bar.BorderColor3 = Color3.new(0,0,0)
+
+local close = Instance.new("ImageButton",bar)
+close.Name = "Close"
+close.Size = UDim2.new(0.05,0,1,0)
+close.BackgroundTransparency = 1
+close.Image = "rbxassetid://9545003266"
+close.Position = UDim2.new(0.95,0,0,0)
+local closestroke = Instance.new("UIStroke",close)
+closestroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+closestroke.LineJoinMode = Enum.LineJoinMode.Miter
+
+local text = Instance.new("TextLabel",bar)
+text.Name = "text"
+text.Size = UDim2.new(0.9,0,1,0)
+text.Position = UDim2.new(0.025,0,0,0)
+text.Text = "saddymaddy's hub (Elude maze)"
+text.TextScaled = true
+text.BackgroundTransparency = 1
+text.Font = Enum.Font.Arcade
+text.TextColor3 = Color3.fromRGB(200, 200, 200)
+
+local getelude = Instance.new("TextButton",gui)
+getelude.Name = "getelude"
+getelude.Size = UDim2.new(0.15,0,0.3,0)
+getelude.Position = UDim2.new(0.0,0,0.1,0)
+getelude.Text = "GET ELUDE"
+getelude.TextScaled = true
+getelude.Font = Enum.Font.Arcade
+
+local getcounter = Instance.new("TextButton",gui)
+getcounter.Name = "getcounter"
+getcounter.Size = UDim2.new(0.15,0,0.3,0)
+getcounter.Position = UDim2.new(0.15,0,0.1,0)
+getcounter.Text = "GET COUNTER"
+getcounter.TextScaled = true
+getcounter.Font = Enum.Font.Arcade
+
+local infyield = Instance.new("TextButton",gui)
+infyield.Name = "infyield"
+infyield.Size = UDim2.new(0.15,0,0.3,0)
+infyield.Position = UDim2.new(0.3,0,0.1,0)
+infyield.Text = "INF YIELD"
+infyield.TextScaled = true
+infyield.Font = Enum.Font.Arcade
+
+local optimize = Instance.new("TextButton",gui)
+optimize.Name = "optimize"
+optimize.Size = UDim2.new(0.15,0,0.3,0)
+optimize.Position = UDim2.new(0.45,0,0.1,0)
+optimize.Text = "NO LAG"
+optimize.TextScaled = true
+optimize.Font = Enum.Font.Arcade
+
+infyield.MouseButton1Click:Connect(function()
+	if infyieldLoaded then return end
+	infyieldLoaded = true
+	game:GetService("StarterGui"):SetCore("SendNotification",{Title = "WARNING", Text = "Use 'cfly' instead of 'fly'. Fly is bugged:P"})
+	wait(5)
+	loadstring(game:HttpGet('https://raw.githubusercontent.com/ionlyusegithubformcmods/1-Line-Scripts/main/Infinite%20Yield%20but%20with%20secure%20dex'))()
+end)
+
+optimize.MouseButton1Click:Connect(function()
+	if optimized then return end
+	optimized = true
+	local toOptimize = {
+		Textures = true,
+		VisualEffects = true,
+		Parts = true,
+		Particles = true,
+		Sky = true
+	}
+
+	local settings = {
+		FullBright = false
+	}
+
+	local optimizations = {
+		Parts = {
+			{"Part", "Union", "BasePart"},
+			{Material = Enum.Material.SmoothPlastic}
+		},
+		Particles = {
+			{"ParticleEmitter", "Smoke", "Explosion", "Sparkles",  "Fire"},
+			{Enabled = false}
+		},
+		VisualEffects = {
+			{"BloomEffect", "BlurEffect", "DepthOfFieldEffect", "SunRaysEffect"},
+			{Enabled = false}
+		},
+		Textures = {
+			{"Decal", "Texture"},
+			{Texture = ""}
+		},
+		Sky = {
+			{"Sky"},
+			{Parent = nil}
+		}
+	}
+
+	local optimizedInstances = 0
+
+	local function createOptimizationChecker(instance)
+		return function(classes, properties)
+			for i, class in next, classes do
+				if instance:IsA(class) then
+					for i,v in next, properties do
+						instance[i] = v
+					end
+
+					optimizedInstances = optimizedInstances + 1
+					break
+				end
+			end
+		end
+	end
+	local function optimize(instance)
+		local check = createOptimizationChecker(instance)
+
+		for optimizationTarget, data in next, optimizations do
+			if toOptimize[optimizationTarget] then
+				if check(data[1], data[2]) then break end
+			end
+		end
+	end
+
+	for _, descendant in next, game:GetDescendants() do
+		optimize(descendant)
+	end
+
+	game.DescendantAdded:Connect(optimize)
+	game:GetService("TestService"):Message("[optimizer]: successfully optimized "..tostring(optimizedInstances).." instances; automatically optimizing newly created ones")
+
+	if settings.FullBright then
+		local Lighting = game:GetService("Lighting")
+
+		Lighting.FogColor = Color3.fromRGB(255, 255, 255)
+		Lighting.FogEnd = math.huge
+		Lighting.FogStart = math.huge
+		Lighting.Ambient = Color3.fromRGB(255, 255, 255)
+		Lighting.Brightness = 5
+		Lighting.ColorShift_Bottom = Color3.fromRGB(255, 255, 255)
+		Lighting.ColorShift_Top = Color3.fromRGB(255, 255, 255)
+		Lighting.OutdoorAmbient = Color3.fromRGB(255, 255, 255)
+		Lighting.Outlines = true
+	end
+end)
+
+close.MouseButton1Click:Connect(function()
+	infyieldLoaded = false
+	optimized = false
+	
+	_G.hubactive = false
+	
+	gui:Destroy()
+	
+	game:GetService("StarterGui"):SetCore("SendNotification",{Title = "Goodbye", Text = "See you next time!"})
+end)
+
+getelude.MouseButton1Click:Connect(function()
+	local ruins = workspace:FindFirstChild("Ruins")
+	
+	if not ruins then
+		getelude.Text = "ERROR"
+
+		wait(3)
+
+		getelude.Text = "GET ELUDE"
+
+		return
+	end
+	
+	local glove = ruins:FindFirstChild("Glove")
+
+	if not glove then
+		getelude.Text = "ERROR"
+
+		wait(3)
+
+		getelude.Text = "GET ELUDE"
+
+		return
+	end
+
+	firetouchinterest(lplr.Character.HumanoidRootPart,glove.TouchInterest)
+end)
+
+getcounter.MouseButton1Click:Connect(function()
+	if gettingCounter then return end
+	
+	gettingCounter = true
+	
+	getcounter.Text = "GETTING..."
+	
+	local lever = workspace:FindFirstChild("CounterLever")
+	
+	if not lever then
+		getcounter.Text = "ERROR"
+		
+		wait(3)
+		
+		getcounter.Text = "GET COUNTER"
+		
+		gettingCounter = false
+		
+		return
+	end
+	
+	fireclickdetector(lever.ClickDetector)
+	
+	lplr.Character.HumanoidRootPart.CFrame = CFrame.new(0,100,0)
+	
+	wait(0.2)
+	
+	lpr.Character.HumanoidRootPart.Anchored = true
+	
+	wait(121)
+	
+	for i,v in pairs(workspace.Maze:GetDescendants()) do
+		if v:IsA("ClickDetector") then
+			fireclickdetector(v)
+		end
+	end
+end)
