@@ -217,7 +217,7 @@ getelude.MouseButton1Click:Connect(function()
 		return
 	end
 
-	firetouchinterest(lplr.Character.HumanoidRootPart,glove.TouchInterest)
+	firetouchinterest(lplr.Character.HumanoidRootPart,glove.TouchInterest,0)
 end)
 
 getcounter.MouseButton1Click:Connect(function()
