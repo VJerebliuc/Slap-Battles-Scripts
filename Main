@@ -1,0 +1,409 @@
+--made by saddymaddy
+
+local DEBUG = false
+
+repeat wait() until game:IsLoaded()
+
+if not DEBUG then
+	if _G.hubactive == true then return end
+	_G.hubactive = true
+end
+
+local bypass = nil
+
+local banremote = game.ReplicatedStorage:FindFirstChild("Ban")
+local adminguiremote = game.ReplicatedStorage:FindFirstChild("AdminGUI")
+local walkspeedremote = game.ReplicatedStorage:FindFirstChild("WalkSpeedChanged")
+
+if banremote and adminguiremote and walkspeedremote then
+	bypass = hookmetamethod(game, "__namecall", function(method, ...) 
+		if getnamecallmethod() == "FireServer" and method == banremote then
+			return
+		elseif getnamecallmethod() == "FireServer" and method == adminguiremote then
+			return
+		elseif getnamecallmethod() == "FireServer" and method == walkspeedremote then
+			return
+		end
+		return bypass(method, ...)
+	end)
+end
+
+local spot = workspace:FindFirstChild("saddymaddyspot")
+
+if not spot then
+	spot = Instance.new("Part")
+	spot.Size = Vector3.new(512,5,512)
+	spot.Position = Vector3.new(25,100000,1488) --посхалко
+	spot.Anchored = true
+	spot.Transparency = 0.5
+	spot.Name = "saddymaddyspot"
+	spot.Parent = workspace
+end
+
+local lplr = game.Players.LocalPlayer
+
+local infyieldLoaded = false
+local slapplefarming = false
+local damaging = false
+local optimized = false
+local adminscancd = false
+local farmingreplica = false
+
+game:GetService("StarterGui"):SetCore("SendNotification",{Title = "Welcome", Text = "Welcome to saddymaddy's hub!"})
+
+local screengui = Instance.new("ScreenGui",lplr.PlayerGui)
+screengui.ResetOnSpawn = false
+screengui.Name = game:GetService("HttpService"):GenerateGUID(false)
+
+local gui = Instance.new("Frame",screengui)
+gui.Name = "Window"
+gui.Position = UDim2.new(0.25,0,0.25,0)
+gui.Size = UDim2.new(0.5,0,0.55,0)
+gui.BackgroundColor3 = Color3.fromRGB(47,47,47)
+gui.Active = true
+gui.Selectable = true
+gui.Draggable = true
+
+local bar = Instance.new("Frame",gui)
+bar.Name = "Bar"
+bar.Size = UDim2.new(1,0,0.1,0)
+bar.BackgroundColor3 = Color3.fromRGB(31,31,31)
+bar.BorderColor3 = Color3.new(0,0,0)
+
+local close = Instance.new("ImageButton",bar)
+close.Name = "Close"
+close.Size = UDim2.new(0.05,0,1,0)
+close.BackgroundTransparency = 1
+close.Image = "rbxassetid://9545003266"
+close.Position = UDim2.new(0.95,0,0,0)
+local closestroke = Instance.new("UIStroke",close)
+closestroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+closestroke.LineJoinMode = Enum.LineJoinMode.Miter
+
+local text = Instance.new("TextLabel",bar)
+text.Name = "text"
+text.Size = UDim2.new(0.9,0,1,0)
+text.Position = UDim2.new(0.025,0,0,0)
+text.Text = "saddymaddy's hub"
+text.TextScaled = true
+text.BackgroundTransparency = 1
+text.Font = Enum.Font.Arcade
+text.TextColor3 = Color3.fromRGB(200, 200, 200)
+
+local abilities = Instance.new("TextButton",gui)
+abilities.Name = "abiltiespage"
+abilities.Size = UDim2.new(0.15,0,0.3,0)
+abilities.Position = UDim2.new(0,0,0.1,0)
+abilities.Text = "ABILITIES"
+abilities.TextScaled = true
+abilities.Font = Enum.Font.Arcade
+
+local farming = Instance.new("TextButton",gui)
+farming.Name = "farmingpage"
+farming.Size = UDim2.new(0.15,0,0.3,0)
+farming.Position = UDim2.new(0.15,0,0.1,0)
+farming.Text = "FARMING"
+farming.TextScaled = true
+farming.Font = Enum.Font.Arcade
+
+local infyield = Instance.new("TextButton",gui)
+infyield.Name = "infyield"
+infyield.Size = UDim2.new(0.15,0,0.3,0)
+infyield.Position = UDim2.new(0.3,0,0.1,0)
+infyield.Text = "INF YIELD"
+infyield.TextScaled = true
+infyield.Font = Enum.Font.Arcade
+
+local optimize = Instance.new("TextButton",gui)
+optimize.Name = "optimize"
+optimize.Size = UDim2.new(0.15,0,0.3,0)
+optimize.Position = UDim2.new(0.45,0,0.1,0)
+optimize.Text = "NO LAG"
+optimize.TextScaled = true
+optimize.Font = Enum.Font.Arcade
+
+local noadmins = Instance.new("TextButton",gui)
+noadmins.Name = "noadmins"
+noadmins.Size = UDim2.new(0.15,0,0.3,0)
+noadmins.Position = UDim2.new(0.6,0,0.1,0)
+noadmins.Text = "SCAN FOR ADMINS"
+noadmins.TextScaled = true
+noadmins.Font = Enum.Font.Arcade
+
+local extrarob = Instance.new("TextButton",gui)
+extrarob.Name = "extrarob"
+extrarob.Size = UDim2.new(0.15,0,0.3,0)
+extrarob.Position = UDim2.new(0.75,0,0.1,0)
+extrarob.Text = "ATTEMPT TO USE ROB"
+extrarob.TextScaled = true
+extrarob.Font = Enum.Font.Arcade
+
+local back = Instance.new("TextButton",bar)
+back.Name = "back"
+back.Size = UDim2.new(0.15,0,1,0)
+back.Position = UDim2.new(0,0,0,0)
+back.Text = "BACK"
+back.TextScaled = true
+back.Font = Enum.Font.Arcade
+back.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+back.TextColor3 = Color3.fromRGB(200, 200, 200)
+back.Visible = false
+
+local slapplefarm = Instance.new("TextButton",gui)
+slapplefarm.Name = "slapplefarm"
+slapplefarm.Size = UDim2.new(0.15,0,0.3,0)
+slapplefarm.Position = UDim2.new(0,0,0.1,0)
+slapplefarm.Text = "SLAPPLE FARM"
+slapplefarm.TextScaled = true
+slapplefarm.Font = Enum.Font.Arcade
+slapplefarm.Visible = false
+
+local replicafarm = Instance.new("TextButton",gui)
+replicafarm.Name = "replicafarm"
+replicafarm.Size = UDim2.new(0.15,0,0.3,0)
+replicafarm.Position = UDim2.new(0.15,0,0.1,0)
+replicafarm.Text = "REPLICA FARM (WILL RESET CHARACTER)"
+replicafarm.TextScaled = true
+replicafarm.Font = Enum.Font.Arcade
+replicafarm.Visible = false
+
+local function hideAll()
+	abilities.Visible = false
+	farming.Visible = false
+	infyield.Visible = false
+	optimize.Visible = false
+	noadmins.Visible = false
+	extrarob.Visible = false
+	slapplefarm.Visible = false
+	replicafarm.Visible = false
+	
+	back.Visible = false
+end
+
+back.MouseButton1Click:Connect(function()
+	hideAll()
+	
+	abilities.Visible = true
+	farming.Visible = true
+	infyield.Visible = true
+	optimize.Visible = true
+	noadmins.Visible = true
+	extrarob.Visible = true
+	back.Visible = false
+end)
+
+infyield.MouseButton1Click:Connect(function()
+	if infyieldLoaded then return end
+	infyieldLoaded = true
+	game:GetService("StarterGui"):SetCore("SendNotification",{Title = "WARNING", Text = "Use 'cfly' instead of 'fly'. Fly is bugged:P"})
+	wait(5)
+	loadstring(game:HttpGet('https://raw.githubusercontent.com/ionlyusegithubformcmods/1-Line-Scripts/main/Infinite%20Yield%20but%20with%20secure%20dex'))()
+end)
+
+abilities.MouseButton1Click:Connect(function()
+	hideAll()
+	page = 1
+	
+	back.Visible = true
+end)
+
+farming.MouseButton1Click:Connect(function()
+	hideAll()
+	page = 2
+	
+	back.Visible = true
+	
+	slapplefarm.Visible = true
+	replicafarm.Visible = true
+end)
+
+optimize.MouseButton1Click:Connect(function()
+	if optimized then return end
+	optimized = true
+	local toOptimize = {
+		Textures = true,
+		VisualEffects = true,
+		Parts = true,
+		Particles = true,
+		Sky = true
+	}
+
+	local settings = {
+		FullBright = false
+	}
+
+	local optimizations = {
+		Parts = {
+			{"Part", "Union", "BasePart"},
+			{Material = Enum.Material.SmoothPlastic}
+		},
+		Particles = {
+			{"ParticleEmitter", "Smoke", "Explosion", "Sparkles",  "Fire"},
+			{Enabled = false}
+		},
+		VisualEffects = {
+			{"BloomEffect", "BlurEffect", "DepthOfFieldEffect", "SunRaysEffect"},
+			{Enabled = false}
+		},
+		Textures = {
+			{"Decal", "Texture"},
+			{Texture = ""}
+		},
+		Sky = {
+			{"Sky"},
+			{Parent = nil}
+		}
+	}
+
+	local optimizedInstances = 0
+
+	local function createOptimizationChecker(instance)
+		return function(classes, properties)
+			for i, class in next, classes do
+				if instance:IsA(class) then
+					for i,v in next, properties do
+						instance[i] = v
+					end
+
+					optimizedInstances = optimizedInstances + 1
+					break
+				end
+			end
+		end
+	end
+	local function optimize(instance)
+		local check = createOptimizationChecker(instance)
+
+		for optimizationTarget, data in next, optimizations do
+			if toOptimize[optimizationTarget] then
+				if check(data[1], data[2]) then break end
+			end
+		end
+	end
+
+	for _, descendant in next, game:GetDescendants() do
+		optimize(descendant)
+	end
+
+	game.DescendantAdded:Connect(optimize)
+	game:GetService("TestService"):Message("[optimizer]: successfully optimized "..tostring(optimizedInstances).." instances; automatically optimizing newly created ones")
+
+	if settings.FullBright then
+		local Lighting = game:GetService("Lighting")
+
+		Lighting.FogColor = Color3.fromRGB(255, 255, 255)
+		Lighting.FogEnd = math.huge
+		Lighting.FogStart = math.huge
+		Lighting.Ambient = Color3.fromRGB(255, 255, 255)
+		Lighting.Brightness = 5
+		Lighting.ColorShift_Bottom = Color3.fromRGB(255, 255, 255)
+		Lighting.ColorShift_Top = Color3.fromRGB(255, 255, 255)
+		Lighting.OutdoorAmbient = Color3.fromRGB(255, 255, 255)
+		Lighting.Outlines = true
+	end
+end)
+
+noadmins.MouseButton1Click:Connect(function()
+	if adminscancd then return end
+
+	adminscancd = true
+
+	noadmins.Text = "SCANNING..."
+
+	for _,v in pairs(game.Players:GetPlayers()) do
+		if v:GetRankInGroup(9950771) >= 2 then
+			damaging = false
+			slapplefarming = false
+
+			autodamage.Text = "DMG"
+			autotycoon.Text = "FARM"
+
+			local msg = Instance.new("Hint",workspace)
+
+			msg.Text = "ADMIN DETECTED!!"
+
+			wait(5)
+
+			msg:Destroy()
+
+			adminscancd = false
+
+			noadmins.Text = "SCAN FOR ADMINS"
+
+			return
+		end
+	end
+
+	wait(2)
+
+	adminscancd = false
+
+	noadmins.Text = "SCAN FOR ADMINS"
+end)
+
+close.MouseButton1Click:Connect(function()
+	damaging = false
+	slapplefarming = false
+	infyieldLoaded = false
+	optimized = false
+	adminscancd = false
+
+	_G.hubactive = false
+
+	gui:Destroy()
+
+	game:GetService("StarterGui"):SetCore("SendNotification",{Title = "Goodbye", Text = "See you next time!"})
+end)
+
+slapplefarm.MouseButton1Click:Connect(function()
+	slapplefarming = not slapplefarming
+	
+	if slapplefarming then
+		slapplefarm.Text = "NO SLAPPLE FARM"
+		
+		spawn(function()
+			while slapplefarming do
+				for i, v in ipairs(workspace.Arena.island5.Slapples:GetDescendants()) do
+					if lplr.Character:FindFirstChild("HumanoidRootPart") and lplr.Character:FindFirstChild("entered") and v.Name == "Glove" and v:FindFirstChildWhichIsA("TouchTransmitter") then
+						firetouchinterest(lplr.Character.HumanoidRootPart, v, 0)
+						firetouchinterest(lplr.Character.HumanoidRootPart, v, 1)
+					end
+				end
+				wait()
+			end
+		end)
+	else
+		slapplefarm.Text = "SLAPPLE FARM"
+	end
+end)
+
+replicafarm.MouseButton1Click:Connect(function()
+	lplr.Character.Humanoid.Health = 0
+	
+	wait(3)
+	
+	firetouchinterest(lplr.Character.HumanoidRootPart,workspace.Lobby.Teleport2,0)
+	
+	if lplr.leaderstats.Glove.Value == "Replica" and lplr.Character.IsInDefaultArena.Value == true then
+		if farmingreplica then
+			coroutine.wrap(spamReplica)()
+		end
+		while farmingreplica do
+			for i, v in pairs(workspace:GetChildren()) do
+				if v.Name:match(lplr.Name) and v:FindFirstChild("HumanoidRootPart") then
+					game.ReplicatedStorage.b:FireServer(v:WaitForChild("HumanoidRootPart"))
+				end
+			end
+			task.wait()
+		end
+	end
+end)
+
+function spamReplica()
+	game.ReplicatedStorage.Duplicate:FireServer()
+	wait(19.9)
+end
+
+extrarob.MouseButton1Click:Connect(function()
+	
+end)
