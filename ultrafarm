@@ -1,0 +1,164 @@
+-- made by saddymaddy
+
+local bypass = nil
+
+local banremote = game.ReplicatedStorage:FindFirstChild("Ban")
+local adminguiremote = game.ReplicatedStorage:FindFirstChild("AdminGUI")
+local walkspeedremote = game.ReplicatedStorage:FindFirstChild("WalkSpeedChanged")
+
+if banremote and adminguiremote and walkspeedremote then
+	bypass = hookmetamethod(game, "__namecall", function(method, ...) 
+		if getnamecallmethod() == "FireServer" and method == banremote then
+			return
+		elseif getnamecallmethod() == "FireServer" and method == adminguiremote then
+			return
+		elseif getnamecallmethod() == "FireServer" and method == walkspeedremote then
+			return
+		end
+		return bypass(method, ...)
+	end)
+end
+
+game:GetService("StarterGui"):SetCore("SendNotification",{Title = "важная информация", Text = "да это не я.."})
+
+local lplr = game.Players.LocalPlayer
+local farming = false
+local sfarming = false
+
+local spot = Instance.new("Part",workspace)
+spot.Anchored = true
+spot.Size = Vector3.new(512,3,512)
+spot.Name = "VSpot"
+spot.Transparency = 0.5
+spot.CFrame = CFrame.new(0,1000000,0)
+
+local screengui = Instance.new("ScreenGui",lplr.PlayerGui)
+screengui.ResetOnSpawn = false
+screengui.Name = game:GetService("HttpService"):GenerateGUID(false)
+
+local gui = Instance.new("Frame",screengui)
+gui.Name = "Window"
+gui.Position = UDim2.new(0.25,0,0.25,0)
+gui.Size = UDim2.new(0.45,0,0.45,0)
+gui.BackgroundColor3 = Color3.fromRGB(47,47,47)
+gui.Active = true
+gui.Selectable = true
+gui.Draggable = true
+
+local bar = Instance.new("Frame",gui)
+bar.Name = "Bar"
+bar.Size = UDim2.new(1,0,0.1,0)
+bar.BackgroundColor3 = Color3.fromRGB(31,31,31)
+bar.BorderColor3 = Color3.new(0,0,0)
+
+local close = Instance.new("ImageButton",bar)
+close.Name = "Close"
+close.Size = UDim2.new(0.05,0,1,0)
+close.BackgroundTransparency = 1
+close.Image = "rbxassetid://9545003266"
+close.Position = UDim2.new(0.95,0,0,0)
+local closestroke = Instance.new("UIStroke",close)
+closestroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+closestroke.LineJoinMode = Enum.LineJoinMode.Miter
+
+local text = Instance.new("TextLabel",bar)
+text.Name = "text"
+text.Size = UDim2.new(0.9,0,1,0)
+text.Position = UDim2.new(0.025,0,0,0)
+text.Text = "мега фармилка слепов (для велеса)"
+text.TextScaled = true
+text.BackgroundTransparency = 1
+text.Font = Enum.Font.Arcade
+text.TextColor3 = Color3.fromRGB(200, 200, 200)
+
+local text2 = Instance.new("TextLabel",gui)
+text2.Name = "text"
+text2.Size = UDim2.new(0.9,0,0.1,0)
+text2.Position = UDim2.new(0.025,0,0.9,0)
+text2.Text = "создатель - валера148852228666777000"
+text2.TextScaled = true
+text2.BackgroundTransparency = 1
+text2.Font = Enum.Font.Arcade
+text2.TextColor3 = Color3.fromRGB(200, 200, 200)
+
+local farm = Instance.new("TextButton",gui)
+farm.Name = "farm"
+farm.Size = UDim2.new(0.15,0,0.3,0)
+farm.Position = UDim2.new(0,0,0.1,0)
+farm.Text = "FARM"
+farm.TextScaled = true
+farm.Font = Enum.Font.Arcade
+
+local autotycoon = Instance.new("TextButton",gui)
+autotycoon.Name = "slaples"
+autotycoon.Size = UDim2.new(0.15,0,0.3,0)
+autotycoon.Position = UDim2.new(0.15,0,0.1,0)
+autotycoon.Text = "SLAPPLES"
+autotycoon.TextScaled = true
+autotycoon.Font = Enum.Font.Arcade
+
+farm.MouseButton1Click:Connect(function()
+	farming = not farming
+	
+	if farming then
+		farm.Text = "NO FARM"
+		
+		while farming do
+			if lplr.leaderstats.Glove.Value == "Replica" and lplr.Character.IsInDefaultArena.Value == true then
+				lplr.Character:PivotTo(spot.CFrame + Vector3.new(0,100,0))
+
+				spawn(function()
+					while wait(0.5) do
+						for _,v in pairs(game.Players:GetPlayers()) do
+							if v:GetRankInGroup(9950771) >= 2 then
+								lplr:Kick("ДА ЭТО НЕ Я ПЕНИСЫ ДЕЛАЮ")
+							end
+						end
+					end
+				end)
+
+				spawn(function()
+					while true do
+						game.ReplicatedStorage.Duplicate:FireServer()
+						wait(19.9)
+					end
+				end)
+
+				while true do
+					for i, v in pairs(workspace:GetChildren()) do
+						if v.Name:match(lplr.Name) and v:FindFirstChild("HumanoidRootPart") then
+							game.ReplicatedStorage.b:FireServer(v:WaitForChild("HumanoidRootPart"))
+						end
+					end
+					task.wait()
+				end
+			end
+		end
+	else
+		farm.Text = "FARM"
+	end
+end)
+
+autotycoon.MouseButton1Click:Connect(function()
+	sfarming = not sfarming
+	
+	if sfarming then
+		autotycoon.Text = "NO SLAPPLES"
+		
+		while sfarming do
+			for i, v in ipairs(workspace.Arena.island5.Slapples:GetDescendants()) do
+				if lplr.Character:FindFirstChild("HumanoidRootPart") and lplr.Character:FindFirstChild("entered") and v.Name == "Glove" and v:FindFirstChildWhichIsA("TouchTransmitter") then
+					firetouchinterest(lplr.Character.HumanoidRootPart, v, 0)
+					firetouchinterest(lplr.Character.HumanoidRootPart, v, 1)
+				end
+			end
+			task.wait()
+		end
+	else
+		autotycoon.Text = "SLAPPLES"
+	end
+end)
+
+close.MouseButton1Click:Connect(function()
+	screengui:Destroy()
+end)
