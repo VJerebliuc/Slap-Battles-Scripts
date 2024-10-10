@@ -99,6 +99,23 @@ textbox.TextColor3 = Color3.fromRGB(200, 200, 200)
 textbox.PlaceholderText = "KEY HERE"
 textbox.ClearTextOnFocus = false
 
+local function shuffleServers()
+	local teleportFunc = queueonteleport or queue_on_teleport
+
+	if teleportFunc then
+		teleportFunc([[
+        if not game:IsLoaded() then
+            game.Loaded:Wait()
+        end
+        repeat wait() until game.Players.LocalPlayer
+        
+        game:GetService("TeleportService"):Teleport(9015014224)
+    ]])
+	end
+
+	game:GetService("TeleportService"):Teleport(11520107397)
+end
+
 game:GetService("StarterGui"):SetCore("SendNotification",{Title = "PONG!", Text = "Script loaded succesfully!"})
 
 textbox.FocusLost:Connect(function(ended)
@@ -119,9 +136,14 @@ textbox.FocusLost:Connect(function(ended)
 				
 				keyscreengui:Destroy()
 				
+				local virtualUser = game:GetService("VirtualUser")
+				
 				local farming = false
 				local sfarming = false
 				local antirecording = false
+				local antiafkkicking = false
+				
+				local afkconnetion = nil
 
 				local spot = Instance.new("Part",workspace)
 				spot.Anchored = true
@@ -174,7 +196,7 @@ textbox.FocusLost:Connect(function(ended)
 				text.Name = "text"
 				text.Size = UDim2.new(0.9,0,1,0)
 				text.Position = UDim2.new(0.025,0,0,0)
-				text.Text = "Slaps Ultra farm v2.3 (Activated)"
+				text.Text = "Slaps Ultra farm v2.4 (Activated)"
 				text.TextScaled = true
 				text.BackgroundTransparency = 1
 				text.Font = Enum.Font.Arcade
@@ -229,6 +251,14 @@ textbox.FocusLost:Connect(function(ended)
 				equip.Text = "EQUIP REPLICA"
 				equip.TextScaled = true
 				equip.Font = Enum.Font.Arcade
+				
+				local antiafkkick = Instance.new("TextButton",gui)
+				antiafkkick.Name = "antiafkkick"
+				antiafkkick.Size = UDim2.new(0.15,0,0.3,0)
+				antiafkkick.Position = UDim2.new(0.75,0,0.1,0)
+				antiafkkick.Text = "ANTI AFK KICK"
+				antiafkkick.TextScaled = true
+				antiafkkick.Font = Enum.Font.Arcade
 
 				local badWords = {
 					"record","recording","записываем","записываю","записала","записал","снимаем","сняли","засняли","снимаю","засняла","сняла","снял","заснял",
@@ -275,7 +305,7 @@ textbox.FocusLost:Connect(function(ended)
 									while wait(0.5) and farming do
 										for _,v in pairs(game.Players:GetPlayers()) do
 											if v:GetRankInGroup(9950771) >= 2 then
-												lplr:Kick("HIGH STATUS PLAYER DETECTED! (TESTER+)")
+												lplr:Kick("HIGH STATUS PLAYER DETECTED! (TESTER+): "..v.DisplayName.." ("..v.Name..")")
 											end
 										end
 									end
@@ -380,6 +410,23 @@ textbox.FocusLost:Connect(function(ended)
 						end
 					end
 				end)
+				
+				antiafkkick.MouseButton1Click:Connect(function()
+					antiafkkicking = not antiafkkicking
+					
+					if antiafkkicking then
+						antiafkkick.Text = "NO ANTI AFK KICK"
+						
+						afkconnetion = lplr.Idled:Connect(function()
+							virtualUser:CaptureController()
+							virtualUser:ClickButton2(Vector2.new())
+						end)
+					else
+						antiafkkick.Text = "ANTI AFK KICK"
+						
+						if afkconnetion then afkconnetion:Disconnect() end
+					end
+				end)
 
 				close.MouseButton1Click:Connect(function()
 					gui.Visible = false
@@ -394,3 +441,15 @@ textbox.FocusLost:Connect(function(ended)
 		end
 	end
 end)
+
+--[[TODO: 
+	1. make anti kick (server hop basically),
+	2. make tips for buttons,
+	3. optimizations
+	
+	code for 1:
+	
+	if game.CoreGui.RobloxPromptGui:FindFirstChild("PromptOverlay") then
+								shuffleServers()
+							end
+]]
