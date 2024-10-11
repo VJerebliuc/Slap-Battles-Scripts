@@ -480,7 +480,7 @@ textbox.FocusLost:Connect(function(ended)
 						antikick.Text = "NO ANTI KICK"
 						
 						while antikicking do
-							if game.CoreGui.RobloxPromptGui:FindFirstChild("PromptOverlay") then
+							if game.CoreGui.RobloxPromptGui.promptOverlay:GetChildren() then
 								shuffleServers()
 							end
 							
