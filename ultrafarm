@@ -142,6 +142,7 @@ textbox.FocusLost:Connect(function(ended)
 				local sfarming = false
 				local antirecording = false
 				local antiafkkicking = false
+				local antikicking = false
 
 				local afkconnetion = nil
 
@@ -196,7 +197,7 @@ textbox.FocusLost:Connect(function(ended)
 				text.Name = "text"
 				text.Size = UDim2.new(0.9,0,1,0)
 				text.Position = UDim2.new(0.025,0,0,0)
-				text.Text = "Slaps Ultra farm v2.4 (Activated)"
+				text.Text = "Slaps Ultra farm v2.5 (TEST) (Activated)"
 				text.TextScaled = true
 				text.BackgroundTransparency = 1
 				text.Font = Enum.Font.Arcade
@@ -259,6 +260,38 @@ textbox.FocusLost:Connect(function(ended)
 				antiafkkick.Text = "ANTI AFK KICK"
 				antiafkkick.TextScaled = true
 				antiafkkick.Font = Enum.Font.Arcade
+				
+				local tptodefault = Instance.new("TextButton",gui)
+				tptodefault.Name = "tptodefault"
+				tptodefault.Size = UDim2.new(0.15,0,0.3,0)
+				tptodefault.Position = UDim2.new(0,0,0.4,0)
+				tptodefault.Text = "TO DEFAULT ARENA"
+				tptodefault.TextScaled = true
+				tptodefault.Font = Enum.Font.Arcade
+				
+				local grabslapples = Instance.new("TextButton",gui)
+				grabslapples.Name = "grabslapples"
+				grabslapples.Size = UDim2.new(0.15,0,0.3,0)
+				grabslapples.Position = UDim2.new(0.15,0,0.4,0)
+				grabslapples.Text = "GRAB SLAPPLES"
+				grabslapples.TextScaled = true
+				grabslapples.Font = Enum.Font.Arcade
+				
+				local antikick = Instance.new("TextButton",gui)
+				antikick.Name = "antikick"
+				antikick.Size = UDim2.new(0.15,0,0.3,0)
+				antikick.Position = UDim2.new(0.3,0,0.4,0)
+				antikick.Text = "ANTI KICK"
+				antikick.TextScaled = true
+				antikick.Font = Enum.Font.Arcade
+				
+				local destroygui = Instance.new("TextButton",gui)
+				destroygui.Name = "destroygui"
+				destroygui.Size = UDim2.new(0.15,0,0.3,0)
+				destroygui.Position = UDim2.new(0.45,0,0.4,0)
+				destroygui.Text = "DESTROY GUI"
+				destroygui.TextScaled = true
+				destroygui.Font = Enum.Font.Arcade
 
 				local badWords = {
 					"record","recording","записываем","записываю","записала","записал","снимаем","сняли","засняли","снимаю","засняла","сняла","снял","заснял",
@@ -274,18 +307,33 @@ textbox.FocusLost:Connect(function(ended)
 					"репорт","report","репортим","зарепортил","зарепортила","reported","reporting",
 					"exploit","эксплоитер","exploiter","эксплоит",
 					"happymod","хэппимод","хеппимод","hapymod","хэпимод","хепимод",
-					"autofarm","autofarming","автофарм","фарм","farm","farming","auto","авто",
+					"autofarm","autofarming","автофарм","фарм","farm","farming","auto","авто","farmer","фармер",
 					"admins","admin","админ","админы",
 					"слепл","слэпл","слеплы","слэплы","slapples","slapple","slaple","slaples",
 					"яблоки","яблоко",
 					"велес","валера","миша",
-					"slapbattlesacc594","slapbattlesacc","slapbattles","acc","jamal",
+					"slapbattlesacc594","slapbattlesacc","slapbattles","acc","jamal","джамал","жамал",
 					"123123145asdwa",
 					lplr.Name:lower(),lplr.DisplayName:lower(),
 					"fatherless","motherless","безмамный","безмамная","беcпапный","беcпапная","приемный","приёмный","приемная","приёмная","безпапный","безпапная"
 				}
+				
+				local function grabSlapples()
+					for i, v in ipairs(workspace.Arena.island5.Slapples:GetDescendants()) do
+						if lplr.Character:FindFirstChild("HumanoidRootPart") and lplr.Character:FindFirstChild("entered") and v.Name == "Glove" and v:FindFirstChildWhichIsA("TouchTransmitter") then
+							firetouchinterest(lplr.Character.HumanoidRootPart, v, 0)
+							firetouchinterest(lplr.Character.HumanoidRootPart, v, 1)
+						end
+					end
+				end
 
 				ping.MouseButton1Click:Connect(function()
+					spawn(function()
+						ping.Text = "PONG!"
+						wait(0.5)
+						ping.Text = "PING!"
+					end)
+					
 					game:GetService("StarterGui"):SetCore("SendNotification",{Title = "PONG!", Text = "you pinged the script"})
 				end)
 
@@ -338,18 +386,15 @@ textbox.FocusLost:Connect(function(ended)
 						autotycoon.Text = "NO SLAPPLES"
 
 						while sfarming do
-							for i, v in ipairs(workspace.Arena.island5.Slapples:GetDescendants()) do
-								if lplr.Character:FindFirstChild("HumanoidRootPart") and lplr.Character:FindFirstChild("entered") and v.Name == "Glove" and v:FindFirstChildWhichIsA("TouchTransmitter") then
-									firetouchinterest(lplr.Character.HumanoidRootPart, v, 0)
-									firetouchinterest(lplr.Character.HumanoidRootPart, v, 1)
-								end
-							end
+							grabSlapples()
 							task.wait()
 						end
 					else
 						autotycoon.Text = "SLAPPLES"
 					end
 				end)
+				
+				grabslapples.MouseButton1Click:Connect(grabSlapples)
 
 				antirecord.MouseButton1Click:Connect(function()
 					antirecording = not antirecording
@@ -368,6 +413,7 @@ textbox.FocusLost:Connect(function(ended)
 											for _,word in pairs(words) do
 												for _,badword in pairs(badWords) do
 													if word:lower():find(badword) then
+														shuffleServers()
 														lplr:Kick("POSSIBLE RECORDING DETECTED: ( ["..plr.DisplayName.."/"..plr.Name.."]: "..msg.." )")
 													end
 												end
@@ -385,6 +431,7 @@ textbox.FocusLost:Connect(function(ended)
 											for _,word in pairs(words) do
 												for _,badword in pairs(badWords) do
 													if word:lower():find(badword) then
+														shuffleServers()
 														lplr:Kick("POSSIBLE RECORDING DETECTED: ( ["..v.DisplayName.."/"..v.Name.."]: "..msg.." )")
 													end
 												end
@@ -425,6 +472,36 @@ textbox.FocusLost:Connect(function(ended)
 						if afkconnetion then afkconnetion:Disconnect() end
 					end
 				end)
+				
+				antikick.MouseButton1Click:Connect(function()
+					antikicking = not antikicking
+					
+					if antikicking then
+						antikick.Text = "NO ANTI KICK"
+						
+						while antikicking do
+							if game.CoreGui.RobloxPromptGui:FindFirstChild("PromptOverlay") then
+								shuffleServers()
+							end
+						end
+					else
+						antikick.Text = "ANTI KICK"
+					end
+				end)
+				
+				destroygui.MouseButton1Click:Connect(function()
+					farming = false
+					sfarming = false
+					antirecording = false
+					antiafkkicking = false
+					antikicking = false
+					
+					if afkconnetion then afkconnetion:Disconnect() end
+					
+					game:GetService("StarterGui"):SetCore("SendNotification",{Title = "GOODBYE!", Text = "goodbye friend! ;)"})
+					
+					screengui:Destroy()
+				end)
 
 				close.MouseButton1Click:Connect(function()
 					gui.Visible = false
@@ -442,12 +519,10 @@ end)
 
 --[[TODO: 
 	1. make anti kick (server hop basically),
-	2. make tips for buttons,
-	3. optimizations
+	2. make tips for buttons,                     <-shit
+	3. optimizations 								<- done
 	
 	code for 1:
 	
-	if game.CoreGui.RobloxPromptGui:FindFirstChild("PromptOverlay") then
-								shuffleServers()
-							end
+	
 ]]
