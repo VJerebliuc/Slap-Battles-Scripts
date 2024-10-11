@@ -484,7 +484,7 @@ textbox.FocusLost:Connect(function(ended)
 								shuffleServers()
 							end
 							
-							task.wait()
+							task.wait(0.1)
 						end
 					else
 						antikick.Text = "ANTI KICK"
@@ -493,9 +493,9 @@ textbox.FocusLost:Connect(function(ended)
 				
 				tptodefault.MouseButton1Click:Connect(function()
 					if not lplr.Character:FindFirstChild("entered") then
-						if workspace:FindFirstChild("Lobby") and workspace.Lobby:FindFirstChild("Teleport2") then
+						--if workspace:FindFirstChild("Lobby") and workspace.Lobby:FindFirstChild("Teleport2") then
 							lplr.Character:PivotTo(workspace.Lobby.Teleport2.CFrame)
-						end
+						--end
 					end
 				end)
 				
