@@ -17,7 +17,7 @@ wait(2)
 
 if not banremote or not adminguiremote or not walkspeedremote then
 	game:GetService("StarterGui"):SetCore("SendNotification",{Title = "ERROR", Text = "an error has occured while executing the script! (Code: 1)"})
-	
+
 	return
 end
 
@@ -34,7 +34,7 @@ if banremote and adminguiremote and walkspeedremote then
 			return bypass(method, ...)
 		end)
 	end)
-	
+
 	if not success then
 		warn(err)
 		game:GetService("StarterGui"):SetCore("SendNotification",{Title = "ERROR", Text = "an error has occured while executing the script! (Code: 3)"})
@@ -126,23 +126,23 @@ textbox.FocusLost:Connect(function(ended)
 			game:GetService("StarterGui"):SetCore("SendNotification",{Title = "ERROR", Text = "Not a key!"})
 		else
 			local key = textbox.Text:sub(7,-1)
-			
+
 			if key ~= tostring(validKey) then
 				game:GetService("StarterGui"):SetCore("SendNotification",{Title = "ERROR", Text = "Invalid key!"})
-				
+
 				print(key)
 			else
 				game:GetService("StarterGui"):SetCore("SendNotification",{Title = "SUCCESS", Text = "Key is valid!"})
-				
+
 				keyscreengui:Destroy()
-				
+
 				local virtualUser = game:GetService("VirtualUser")
-				
+
 				local farming = false
 				local sfarming = false
 				local antirecording = false
 				local antiafkkicking = false
-				
+
 				local afkconnetion = nil
 
 				local spot = Instance.new("Part",workspace)
@@ -180,7 +180,7 @@ textbox.FocusLost:Connect(function(ended)
 				local closestroke = Instance.new("UIStroke",close)
 				closestroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 				closestroke.LineJoinMode = Enum.LineJoinMode.Miter
-				
+
 				local open = Instance.new("TextButton",screengui)
 				open.Name = "Close"
 				open.Size = UDim2.new(0.05,0,0.1,0)
@@ -243,7 +243,7 @@ textbox.FocusLost:Connect(function(ended)
 				ping.Text = "PING!"
 				ping.TextScaled = true
 				ping.Font = Enum.Font.Arcade
-				
+
 				local equip = Instance.new("TextButton",gui)
 				equip.Name = "equip"
 				equip.Size = UDim2.new(0.15,0,0.3,0)
@@ -251,7 +251,7 @@ textbox.FocusLost:Connect(function(ended)
 				equip.Text = "EQUIP REPLICA"
 				equip.TextScaled = true
 				equip.Font = Enum.Font.Arcade
-				
+
 				local antiafkkick = Instance.new("TextButton",gui)
 				antiafkkick.Name = "antiafkkick"
 				antiafkkick.Size = UDim2.new(0.15,0,0.3,0)
@@ -295,37 +295,35 @@ textbox.FocusLost:Connect(function(ended)
 					if farming then
 						farm.Text = "NO FARM"
 
-						while farming do
-							if lplr.leaderstats.Glove.Value == "Replica" and lplr.Character.IsInDefaultArena.Value == true then
-								lplr.Character:PivotTo(spot.CFrame + Vector3.new(0,100,0))
-								
-								wait(1)
+						if lplr.leaderstats.Glove.Value == "Replica" and lplr.Character.IsInDefaultArena.Value == true then
+							lplr.Character:PivotTo(spot.CFrame + Vector3.new(0,100,0))
 
-								spawn(function()
-									while wait(0.5) and farming do
-										for _,v in pairs(game.Players:GetPlayers()) do
-											if v:GetRankInGroup(9950771) >= 2 then
-												lplr:Kick("HIGH STATUS PLAYER DETECTED! (TESTER+): "..v.DisplayName.." ("..v.Name..")")
-											end
+							wait(1)
+
+							spawn(function()
+								while wait(0.5) and farming do
+									for _,v in pairs(game.Players:GetPlayers()) do
+										if v:GetRankInGroup(9950771) >= 2 then
+											lplr:Kick("HIGH STATUS PLAYER DETECTED! (TESTER+): "..v.DisplayName.." ("..v.Name..")")
 										end
 									end
-								end)
-
-								spawn(function()
-									while farming do
-										game.ReplicatedStorage.Duplicate:FireServer()
-										wait(19.9)
-									end
-								end)
-
-								while farming do
-									for i, v in pairs(workspace:GetChildren()) do
-										if v.Name:match(lplr.Name) and v:FindFirstChild("HumanoidRootPart") then
-											game.ReplicatedStorage.b:FireServer(v:WaitForChild("HumanoidRootPart"))
-										end
-									end
-									task.wait()
 								end
+							end)
+
+							spawn(function()
+								while farming do
+									game.ReplicatedStorage.Duplicate:FireServer()
+									wait(19.9)
+								end
+							end)
+
+							while farming do
+								for i, v in pairs(workspace:GetChildren()) do
+									if v.Name:match(lplr.Name) and v:FindFirstChild("HumanoidRootPart") then
+										game.ReplicatedStorage.b:FireServer(v:WaitForChild("HumanoidRootPart"))
+									end
+								end
+								task.wait()
 							end
 						end
 					else
@@ -402,7 +400,7 @@ textbox.FocusLost:Connect(function(ended)
 						antirecord.Text = "ANTI RECORD"
 					end
 				end)
-				
+
 				equip.MouseButton1Click:Connect(function()
 					if not lplr.Character:FindFirstChild("entered") then
 						if workspace:FindFirstChild("Lobby") and workspace.Lobby:FindFirstChild("Replica") then
@@ -410,20 +408,20 @@ textbox.FocusLost:Connect(function(ended)
 						end
 					end
 				end)
-				
+
 				antiafkkick.MouseButton1Click:Connect(function()
 					antiafkkicking = not antiafkkicking
-					
+
 					if antiafkkicking then
 						antiafkkick.Text = "NO ANTI AFK KICK"
-						
+
 						afkconnetion = lplr.Idled:Connect(function()
 							virtualUser:CaptureController()
 							virtualUser:ClickButton2(Vector2.new())
 						end)
 					else
 						antiafkkick.Text = "ANTI AFK KICK"
-						
+
 						if afkconnetion then afkconnetion:Disconnect() end
 					end
 				end)
