@@ -483,9 +483,19 @@ textbox.FocusLost:Connect(function(ended)
 							if game.CoreGui.RobloxPromptGui:FindFirstChild("PromptOverlay") then
 								shuffleServers()
 							end
+							
+							task.wait()
 						end
 					else
 						antikick.Text = "ANTI KICK"
+					end
+				end)
+				
+				tptodefault.MouseButton1Click:Connect(function()
+					if not lplr.Character:FindFirstChild("entered") then
+						if workspace:FindFirstChild("Lobby") and workspace.Lobby:FindFirstChild("Teleport2") then
+							lplr.Character:PivotTo(workspace.Lobby.Teleport2.CFrame)
+						end
 					end
 				end)
 				
