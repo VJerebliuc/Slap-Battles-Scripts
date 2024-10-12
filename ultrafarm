@@ -613,7 +613,7 @@ textbox.FocusLost:Connect(function(ended)
 
 				keyscreengui:Destroy()
 
-				
+				main(false,nil)
 			end
 		end
 	end
