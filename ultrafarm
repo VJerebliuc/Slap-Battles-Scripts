@@ -120,7 +120,7 @@ local function main(resume,data)
 	text2.Name = "text"
 	text2.Size = UDim2.new(0.9,0,0.1,0)
 	text2.Position = UDim2.new(0.025,0,0.9,0)
-	text2.Text = "Creator: saddymaddy aka wilowkqxy (hardcore roblox studio/osu gaymer)"
+	text2.Text = "Creator: saddymaddy aka wilowkqxy (hardcore roblox studio/osu gayMer)"
 	text2.TextScaled = true
 	text2.BackgroundTransparency = 1
 	text2.Font = Enum.Font.Arcade
