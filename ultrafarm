@@ -612,8 +612,15 @@ textbox.FocusLost:Connect(function(ended)
 				game:GetService("StarterGui"):SetCore("SendNotification",{Title = "SUCCESS", Text = "Key is valid!"})
 
 				keyscreengui:Destroy()
-
-				main(false,nil)
+				
+				local data = {
+					[1] = false,
+					[2] = false,
+					[3] = false,
+					[4] = false,
+					[5] = false
+				}
+				main(true,data)
 			end
 		end
 	end
