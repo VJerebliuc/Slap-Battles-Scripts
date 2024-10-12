@@ -233,14 +233,20 @@ local function main(resume,data)
 	local function shuffleServers()
 		local teleportFunc = queueonteleport or queue_on_teleport
 
-		if teleportFunc then
+		if teleportFunc then --game:GetService("TeleportService"):GetLocalPlayerTeleportData()
 			teleportFunc([[
         if not game:IsLoaded() then
             game.Loaded:Wait()
         end
         repeat wait() until game.Players.LocalPlayer
         
-        local data = game:GetService("TeleportService"):GetLocalPlayerTeleportData()
+        local data = {
+        	[1] = true,
+        	[2] = false,
+        	[3] = true,
+        	[4] = true,
+        	[5] = true
+        }
         
         local teleportFunc = queueonteleport or queue_on_teleport
         
