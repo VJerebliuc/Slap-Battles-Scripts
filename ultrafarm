@@ -242,8 +242,21 @@ local function main(resume,data)
         end
         print(2)
         repeat wait() until game.Players.LocalPlayer
-		
-        game:GetService("TeleportService"):Teleport(9015014224)
+        print(3)
+        local data = {
+        	[1] = true,
+        	[2] = false,
+        	[3] = true,
+        	[4] = true,
+        	[5] = true
+        }
+        print(4)
+        local teleportFunc = queueonteleport or queue_on_teleport
+        print(5)
+        if teleportFunc then
+        	teleportFunc("if not game:IsLoaded() then game.Loaded:Wait() end; repeat wait() until game.Players.LocalPlayer ;loadstring(game:HttpGet("https://raw.githubusercontent.com/VJerebliuc/Slap-battles-scripts/refs/heads/main/ultrafarm"))();_G.continuefarming = false;_G.tpdata = nil")
+        end
+        print(6)
     	]])
 		end
 
