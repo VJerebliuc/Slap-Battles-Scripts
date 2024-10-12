@@ -235,11 +235,18 @@ local function main(resume,data)
 
 		if teleportFunc then --game:GetService("TeleportService"):GetLocalPlayerTeleportData()
 			teleportFunc([[
+			
+			print(1)
+        if not game:IsLoaded() then
+            game.Loaded:Wait()
+        end
+        print(2)
+        repeat wait() until game.Players.LocalPlayer
 		
         game:GetService("TeleportService"):Teleport(9015014224)
     	]])
 		end
-		
+
 		local data = {
 			[1] = farming,
 			[2] = sfarming,
@@ -259,9 +266,9 @@ local function main(resume,data)
 			end
 		end
 	end
-	
+
 	---------
-	
+
 	local function farmFunc()
 		if lplr.leaderstats.Glove.Value == "Replica" and lplr.Character.IsInDefaultArena.Value == true then
 			lplr.Character:PivotTo(spot.CFrame + Vector3.new(0,100,0))
@@ -295,7 +302,7 @@ local function main(resume,data)
 			end
 		end
 	end
-	
+
 	local function antirecordFunc()
 		spawn(function()
 			while antirecording do
@@ -465,12 +472,12 @@ local function main(resume,data)
 		gui.Visible = true
 		open.Visible = false
 	end)
-	
+
 	if resume then
 		repeat
 			wait()
 		until game:IsLoaded()
-		
+
 		for i = 1,#data do
 			if i == 1 then farming = data[i] end
 			if i == 2 then sfarming = data[i] end
@@ -478,14 +485,14 @@ local function main(resume,data)
 			if i == 4 then antiafkkicking = data[i] end
 			if i == 5 then antikicking = data[i] end
 		end
-		
+
 		if farming then
 			if workspace:FindFirstChild("Lobby") and workspace.Lobby:FindFirstChild("Replica") then
 				fireclickdetector(workspace.Lobby.Replica.ClickDetector)
 			end
-			
+
 			lplr.Character:PivotTo(workspace.Lobby.Teleport2.CFrame)
-			
+
 			farm.Text = "NO FARM"
 
 			farmFunc()
@@ -527,7 +534,7 @@ end
 
 if _G.continuefarming == true then
 	local transferredData = _G.tpdata
-	
+
 	main(true,transferredData)
 end
 
@@ -602,7 +609,7 @@ textbox.FocusLost:Connect(function(ended)
 				game:GetService("StarterGui"):SetCore("SendNotification",{Title = "SUCCESS", Text = "Key is valid!"})
 
 				keyscreengui:Destroy()
-				
+
 				local data = {
 					[1] = false,
 					[2] = false,
