@@ -151,7 +151,7 @@ autodamage.MouseButton1Click:Connect(function()
 			if remote then
 				while damaging and remote do
 					remote:FireServer()
-					wait(0.0025)
+					wait(0.001)
 				end
 			end
 		end)
