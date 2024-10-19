@@ -120,7 +120,14 @@ autotycoon.MouseButton1Click:Connect(function()
 		autotycoon.Text = "FARM"
 	elseif farming == false then
 		farming = true
-		local tycoon = workspace:FindFirstChild("ÅTycoon"..lplr.Name)
+		local tycoon = nil
+
+		for _,v in pairs(workspace:GetChildren()) do
+			if v.Name:find("ÅTycoon") then
+				tycoon = v
+				break
+			end
+		end
 		if tycoon then
 			spawn(function()
 				while farming and tycoon do
