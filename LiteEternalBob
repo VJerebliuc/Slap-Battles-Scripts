@@ -1,0 +1,91 @@
+--made by saddymaddy
+
+local DEBUG = false
+
+repeat wait() until game:IsLoaded()
+
+if not DEBUG then
+	if _G.hubactive == true then return end
+	_G.hubactive = true
+end
+
+local lplr = game.Players.LocalPlayer
+local damaging = false
+
+game:GetService("StarterGui"):SetCore("SendNotification",{Title = "ВЕЛЕС ЛО", Text = "х"})
+
+local screengui = Instance.new("ScreenGui",lplr.PlayerGui)
+screengui.ResetOnSpawn = false
+screengui.Name = game:GetService("HttpService"):GenerateGUID(false)
+
+local gui = Instance.new("Frame",screengui)
+gui.Name = "Window"
+gui.Position = UDim2.new(0.25,0,0.25,0)
+gui.Size = UDim2.new(0.5,0,0.55,0)
+gui.BackgroundColor3 = Color3.fromRGB(47,47,47)
+gui.Active = true
+gui.Selectable = true
+gui.Draggable = true
+
+local bar = Instance.new("Frame",gui)
+bar.Name = "Bar"
+bar.Size = UDim2.new(1,0,0.1,0)
+bar.BackgroundColor3 = Color3.fromRGB(31,31,31)
+bar.BorderColor3 = Color3.new(0,0,0)
+
+local close = Instance.new("ImageButton",bar)
+close.Name = "Close"
+close.Size = UDim2.new(0.05,0,1,0)
+close.BackgroundTransparency = 1
+close.Image = "rbxassetid://9545003266"
+close.Position = UDim2.new(0.95,0,0,0)
+local closestroke = Instance.new("UIStroke",close)
+closestroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+closestroke.LineJoinMode = Enum.LineJoinMode.Miter
+
+local text = Instance.new("TextLabel",bar)
+text.Name = "text"
+text.Size = UDim2.new(0.9,0,1,0)
+text.Position = UDim2.new(0.025,0,0,0)
+text.Text = "saddymaddy's hub (велес лох)"
+text.TextScaled = true
+text.BackgroundTransparency = 1
+text.Font = Enum.Font.Arcade
+text.TextColor3 = Color3.fromRGB(200, 200, 200)
+
+local autodamage = Instance.new("TextButton",gui)
+autodamage.Name = "autodamage"
+autodamage.Size = UDim2.new(0.15,0,0.3,0)
+autodamage.Position = UDim2.new(0,0,0.1,0)
+autodamage.Text = "DMG"
+autodamage.TextScaled = true
+autodamage.Font = Enum.Font.Arcade
+
+autodamage.MouseButton1Click:Connect(function()
+	if damaging then
+		damaging = false
+		autodamage.Text = "DMG"
+	elseif damaging == false then
+		damaging = true
+		spawn(function()
+			local remote = workspace:WaitForChild("bobBoss").DamageEvent
+			if remote then
+				while damaging and remote do
+					remote:FireServer()
+					wait(0.001)
+				end
+			end
+		end)
+		autodamage.Text = "NO DMG"
+	end
+end)
+
+close.MouseButton1Click:Connect(function()
+	damaging = false
+	
+	_G.hubactive = false
+	
+	gui:Destroy()
+	
+	game:GetService("StarterGui"):SetCore("SendNotification",{Title = "ПОШЕЛ", Text = "ИДИ НАХУЙ"})
+end)
